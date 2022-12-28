@@ -7,7 +7,5 @@ import org.springframework.boot.test.context.SpringBootTest
 class TagsServiceAppTests {
 
     @Test
-    fun contextLoads() {
-    }
-
+    fun `Context loads`() {}
 }
