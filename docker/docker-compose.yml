@@ -1,18 +1,6 @@
 version: '2'
 
 services:
-  cards-service:
-    image: 'vlmaier/cards-service:latest'
-    container_name: cards-service
-    depends_on:
-      - db-cards
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:54320/postgres
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=postgres
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-    ports:
-      - "8080:8080"
   tags-service:
     image: 'tags-service:latest'
     build:
@@ -22,12 +10,24 @@ services:
       - cards-service
       - db-tags
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:54321/postgres
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-tags:54321/postgres
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     ports:
       - "8081:8080"
+  cards-service:
+    image: 'vlmaier/cards-service:0.0.1-SNAPSHOT'
+    container_name: cards-service
+    depends_on:
+      - db-cards
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-cards:54320/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    ports:
+      - "8080:8080"
   db-cards:
     image: 'postgres:15.1-alpine'
     container_name: db-cards
@@ -36,6 +36,9 @@ services:
       - POSTGRES_PASSWORD=postgres
     ports:
       - "54320:5432"
+    expose:
+      - "54320"
+    command: -p 54320
   db-tags:
     image: 'postgres:15.1-alpine'
     container_name: db-tags
@@ -44,3 +47,6 @@ services:
       - POSTGRES_PASSWORD=postgres
     ports:
       - "54321:5432"
+    expose:
+      - "54321"
+    command: -p 54321
