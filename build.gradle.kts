@@ -41,3 +41,14 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+tasks.register<Copy>("copyJarToDockerDir") {
+    from(layout.buildDirectory.dir("libs"))
+    include("${project.name}-${project.version}.jar")
+    into("docker")
+}
+
+tasks.named("copyJarToDockerDir") {
+    dependsOn(":build")
+}
+
