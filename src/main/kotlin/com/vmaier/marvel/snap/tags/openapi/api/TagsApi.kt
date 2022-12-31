@@ -24,7 +24,7 @@ interface TagsApi {
         ]
     )
     @PostMapping
-    fun createTags()
+    fun createTags(): ResponseEntity<Void>
 
     @Operation(summary = "List all available card tags", description = "TODO ...")
     @ApiResponses(

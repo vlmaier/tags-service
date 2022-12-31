@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class TagsController constructor(private val tagsService: TagsService): TagsApi {
 
-    override fun createTags() {
+    override fun createTags(): ResponseEntity<Void> {
         tagsService.createTags()
+        return ResponseEntity(HttpStatus.NO_CONTENT)
     }
 
     override fun listTags(): ResponseEntity<List<TagResponse>> {

@@ -1,12 +1,10 @@
 package com.vmaier.marvel.snap.tags.service
 
 import com.vmaier.marvel.snap.tags.db.dao.CardTag
-import com.vmaier.marvel.snap.tags.db.dao.Tag
 import com.vmaier.marvel.snap.tags.db.repo.CardTagRepository
 import com.vmaier.marvel.snap.tags.db.repo.TagRepository
 import com.vmaier.marvel.snap.tags.model.CardResponse
 import jakarta.transaction.Transactional
-import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 
 @Service
@@ -42,14 +40,8 @@ class TagsService(
     }
 
     fun getCards(): List<CardResponse> {
-        val response = restTemplateService.getCards()
-        if (response.statusCode == HttpStatus.OK) {
-            val cards = response.body
-            if (!cards.isNullOrEmpty()) {
-                return cards.toList()
-            }
-        }
-        return listOf()
+        val cards = restTemplateService.getCards()
+        return cards.toList()
     }
 
     fun findTags(card: CardResponse): Map<Int, String> {
